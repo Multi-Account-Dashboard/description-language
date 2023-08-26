@@ -38,3 +38,76 @@ The description language for primary and fallback authentication methods, SSO, a
     }
 }
 ```
+
+## Examples
+
+### Google (simplified)
+
+
+
+```
+{
+        "name": "google.com",
+        "url": "https://www.google.com",
+        "accountType": "identity provider",
+        "primaryAuthentication":
+        {
+            "types_possible": ["password", "totp", "sms"],
+            "required":
+            "AND",
+                {"password": ""},
+                ["OR",
+                    {"totp": ""},
+                    {"sms": ""}
+                ]
+            ]
+        },
+        "fallbackAuthentication":
+        {
+            "types_possible": ["email", "sms", "question"],
+            "required":
+            ["OR",
+                {"email": ""},
+                {"sms": ""}
+            ]
+        },
+        "sso":
+        {
+            "identity provider": true,
+            "providers": [],
+            "data": []
+        }
+    }
+}
+```
+
+### Overleaf
+
+```
+{
+        "name": "overleaf.com",
+        "url": "https://www.overleaf.com",
+        "accountType": "sensitive account",
+        "primaryAuthentication":
+        {
+            "types_possible": ["password", "sso"],
+            "required":
+            ["OR",
+                {"password": ""},
+                {"sso": ""}
+            ]
+        },
+        "fallbackAuthentication":
+        {
+            "types_possible": ["email"],
+            "required": {"email": "multiple"},
+        },
+        "sso":
+        {
+            "identity provider": false,
+            "providers": ["google.com", "orcid.org", "twitter.com", "ieee.org", "institutional"],
+            "data": ["identifier"]
+        }
+    }
+}
+```
